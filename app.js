@@ -23,9 +23,8 @@ var Drink = function(ingredients) {
   this.fruity = ingredients.fruity;
 };
 
-var serveDrink = '<h2>Here ye go!</h2><h4 id="order"></h4>';
-
 $(document).ready(function() {
+  $('#drinkOrder').addClass('hide');
   //Randomly selects the ingredients based on user's choice and will deduct one from the pantry
   var randomNumber = function() {
       var newNumber = Math.floor((Math.random() * 3) + 0);
@@ -35,7 +34,7 @@ $(document).ready(function() {
   //Drink question
   var bartenderQuestions = "";
   for (var i=0; i < questions.length; i++) {
-    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input name="question" value="true" type="checkbox"' + i + '><br> Blegh! <input name="question" type="checkbox" value="false"' + i + '></p>';
+    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input name="question" value="true" type="checkbox" required' + i + '><br> Blegh! <input name="question" type="checkbox" value="false" required' + i + '></p>';
   }
 
   $('#drinkQuestions').append(bartenderQuestions);
@@ -58,7 +57,7 @@ $(document).ready(function() {
     var drinkString = whatsInYourDrink.join(', ').trim().replace(/,{1,}$/, '');
 
     //Prints customized drink and its ingredients
-    $('#drinkOrder').append(serveDrink);
+    $('#drinkOrder').removeClass('hide');
     $('#order').text(drinkString);
   })
 })

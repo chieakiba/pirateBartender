@@ -24,4 +24,10 @@ h1, h2 {
 h4, p {
   font-family: 'Reenie Beanie', cursive;
   font-size: 2em;
+  text-shadow: 1px 1px 1px black;
+}
+
+#drinkOrder {
+  color: #ffd700;
+  text-shadow: 2px 2px 2px black;
 }
