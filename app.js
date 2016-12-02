@@ -35,7 +35,7 @@ $(document).ready(function() {
   //Drink question
   var bartenderQuestions = "";
   for (var i=0; i < questions.length; i++) {
-    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input name="yes" type="checkbox" ' + i + 'value="true"><br> Blegh! <input name="no" type="checkbox"' + i + ' value="false"></p>';
+    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input name="question" value="true" type="checkbox"' + i + '><br> Blegh! <input name="question" type="checkbox" value="false"' + i + '></p>';
   }
 
   $('#drinkQuestions').append(bartenderQuestions);
@@ -47,14 +47,15 @@ $(document).ready(function() {
 
     //Constructs drink based on user input
     var yerDrink = new Drink({
-        strong: userDrinkChoice[0].value ? ingredients.strong[randomNumber()] : userDrinkChoice[1].value,
-        salty: userDrinkChoice[0].value ? ingredients.salty[randomNumber()] : userDrinkChoice[1].value,
-        bitter: userDrinkChoice[0].value ? ingredients.bitter[randomNumber()] : userDrinkChoice[1].value,
-        sweet: userDrinkChoice[0].value ? ingredients.sweet[randomNumber()] : userDrinkChoice[1].value,
-        fruity: userDrinkChoice[0].value ? ingredients.fruity[randomNumber()] : userDrinkChoice[1].value,
+        strong: userDrinkChoice[0].value === "true" ? ingredients.strong[randomNumber()] : undefined,
+        salty: userDrinkChoice[1].value === "true" ? ingredients.salty[randomNumber()] : undefined,
+        bitter: userDrinkChoice[2].value === "true" ? ingredients.bitter[randomNumber()] : undefined,
+        sweet: userDrinkChoice[3].value === "true" ? ingredients.sweet[randomNumber()] : undefined,
+        fruity: userDrinkChoice[4].value === "true" ? ingredients.fruity[randomNumber()] : undefined,
     });
+    console.log('yerDrink', yerDrink);
     var whatsInYourDrink = Object.values(yerDrink);
-    var drinkString = whatsInYourDrink.join(', ');
+    var drinkString = whatsInYourDrink.join(', ').trim().replace(/,{1,}$/, '');
 
     //Prints customized drink and its ingredients
     $('#drinkOrder').append(serveDrink);
