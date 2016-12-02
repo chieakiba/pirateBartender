@@ -1,0 +1,27 @@
+body {
+  background-image: url(pirate-hero.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  text-align: center;
+  padding-top: 5em;
+  padding-bottom: 6em;
+}
+
+.background {
+  background-color: rgba(128, 128, 128, 0.5);
+  width: 75%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 2em 0;
+}
+
+h1, h2 {
+  font-family: 'Waiting for the Sunrise', cursive;
+  font-size: 3em;
+}
+
+h4, p {
+  font-family: 'Reenie Beanie', cursive;
+  font-size: 2em;
+}
