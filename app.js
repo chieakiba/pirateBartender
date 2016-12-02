@@ -1,13 +1,4 @@
-// var DrinkQuestion = function(questions) {
-//   this.questions = questions
-// }
-//
-// var strongDrink = new DrinkQuestion('Do ye like yer drinks strong?');
-// var saltyDrink = new DrinkQuestion('Do ye like it with a salty tang?');
-// var bitterDrink = new DrinkQuestion('Are ye a lubber who likes it bitter?');
-// var sweetDrink = new DrinkQuestion('Would ye like a bit of sweetness with yer poison?');
-// var fruityDrink = new DrinkQuestion('Are ye one for a fruity finish?');
-
+//Global variables
 var questions = [
   'Do ye like yer drinks strong?',
   'Do ye like it with a salty tang?',
@@ -15,6 +6,14 @@ var questions = [
   'Would ye like a bit of sweetness with yer poison?',
   'Are ye one for a fruity finish?'
 ]
+
+var ingredients = {
+  strong: ['Glug of rum', 'Slug of whiskey', 'Splash of Gin'],
+  salty: ['Olive on a stick', 'Salted-dusted rim', 'Rasher of bacon'],
+  bitter: ['Shake of bitters', 'Splash of tonic', 'Twist of lemon peel'],
+  sweet: ['Sugar cube', 'Spoonful of honey', 'Splash of cola'],
+  fruity: ['Slice of orange', 'Dash of cassis', 'Cherry on top'],
+}
 
 var Drink = function(ingredients) {
   this.strong = ingredients.strong;
@@ -24,41 +23,41 @@ var Drink = function(ingredients) {
   this.fruity = ingredients.fruity;
 };
 
-var ingredients = {
-  strong: [{'Glug of rum': 20}, {'Slug of whiskey': 20}, {'Splash of Gin': 25}],
-  salty: [{'Olive on a stick': 20}, {'Salted-dusted rim': 20}, {'Rasher of bacon': 25}],
-  bitter: [{'Shake of bitters': 20}, {'Splash of tonic': 20}, {'Twist of lemon peel': 25}],
-  sweet: [{'Sugar cube': 20}, {'Spoonful of honey': 20}, {'Splash of cola': 25}],
-  fruity: [{'Slice of orange': 20}, {'Dash of cassis': 20}, {'Cherry on top': 25}],
-}
-
-//Randomly selects the ingredients based on user's choice and will deduct one from the pantry
-var randomNumber = function() {
-    var newNumber = Math.floor((Math.random() * 3) + 0);
-    return newNumber
-};
+var serveDrink = '<h2>Here ye go!</h2><h4 id="order"></h4>';
 
 $(document).ready(function() {
+  //Randomly selects the ingredients based on user's choice and will deduct one from the pantry
+  var randomNumber = function() {
+      var newNumber = Math.floor((Math.random() * 3) + 0);
+      return newNumber
+  };
+
   //Drink question
-  var bartenderQuestions;
+  var bartenderQuestions = "";
   for (var i=0; i < questions.length; i++) {
-    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input' + i + ' value="true" type=radio><br> Blegh! <input' + i + ' value="false"><p>';
+    bartenderQuestions+= '<p>' + questions[i] + '<br> Ahoy! <input name="yes" type="checkbox" ' + i + 'value="true"><br> Blegh! <input name="no" type="checkbox"' + i + ' value="false"></p>';
   }
 
-  $('#drinkQuestions').append("<div>" + bartenderQuestions + "</div>");
+  $('#drinkQuestions').append(bartenderQuestions);
 
   $('#bartender').submit(function(event) {
     event.preventDefault();
     var userDrinkChoice = $('form').serializeArray();
-    console.log(userDrinkChoice);
+    console.log('userDrinkChoice', userDrinkChoice);
 
-    //constructs drink based on user input
+    //Constructs drink based on user input
     var yerDrink = new Drink({
-        strong: (currentUserChoice[0].value === "true") ? ingredients.strong[randomNumber()] : false,
-        salty: (currentUserChoice[0].value === "true") ? ingredients.salty[randomNumber()] : false,
-        bitter: (currentUserChoice[0].value === "true") ? ingredients.bitter[randomNumber()] : false,
-        sweet: (currentUserChoice[0].value === "true") ? ingredients.sweet[randomNumber()] : false,
-        fruity: (currentUserChoice[0].value === "true") ? ingredients.fruity[randomNumber()] : false,
+        strong: userDrinkChoice[0].value ? ingredients.strong[randomNumber()] : userDrinkChoice[1].value,
+        salty: userDrinkChoice[0].value ? ingredients.salty[randomNumber()] : userDrinkChoice[1].value,
+        bitter: userDrinkChoice[0].value ? ingredients.bitter[randomNumber()] : userDrinkChoice[1].value,
+        sweet: userDrinkChoice[0].value ? ingredients.sweet[randomNumber()] : userDrinkChoice[1].value,
+        fruity: userDrinkChoice[0].value ? ingredients.fruity[randomNumber()] : userDrinkChoice[1].value,
     });
+    var whatsInYourDrink = Object.values(yerDrink);
+    var drinkString = whatsInYourDrink.join(', ');
+
+    //Prints customized drink and its ingredients
+    $('#drinkOrder').append(serveDrink);
+    $('#order').text(drinkString);
   })
 })
